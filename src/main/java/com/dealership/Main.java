@@ -1,6 +1,8 @@
 package com.dealership;
 
 import com.dealership.services.DatabaseHelper;
+import com.dealership.services.ui.UserInterface;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -11,5 +13,7 @@ public class Main {
         } catch (SQLException e) {
             System.err.println("❌ Connection failed: " + e.getMessage());
         }
+        UserInterface ui = new UserInterface();
+        ui.display();
     }
 }
