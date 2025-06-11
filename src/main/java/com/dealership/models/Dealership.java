@@ -3,16 +3,60 @@ package com.dealership.models;
 import java.util.ArrayList;
 
 public class Dealership {
+    private int dealershipId;
     private String name;
     private String address;
-    private String phoneNumber;
+    private String phone;
     private ArrayList<Vehicle> inventory;
 
-    public Dealership(String name, String address, String phoneNumber) {
+    public Dealership(int dealershipId, String name, String address, String phone) {
+        this.dealershipId = dealershipId;
         this.inventory = new ArrayList<>();
         this.name = name;
         this.address = address;
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
+    }
+
+    // Overloaded constructor for new dealerships (no ID yet)
+    public Dealership(String name, String address, String phone) {
+        this(0, name, address, phone);
+    }
+
+    public int getDealershipId() {
+        return dealershipId;
+    }
+
+    public void setDealershipId(int dealershipId) {
+        this.dealershipId = dealershipId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public ArrayList<Vehicle> getAllVehicles() {
+        return inventory;
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        inventory.add(vehicle);
+    }
+
+    public void removeVehicle(String vin) {
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getVin().equalsIgnoreCase(vin)) {
+                inventory.remove(i);
+                break;
+            }
+        }
     }
 
     public ArrayList<Vehicle> getVehiclesByPrice(double min, double max) {
@@ -24,19 +68,6 @@ public class Dealership {
         }
         return result;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
 
     public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model) {
         ArrayList<Vehicle> result = new ArrayList<>();
@@ -88,20 +119,4 @@ public class Dealership {
         return result;
     }
 
-    public ArrayList<Vehicle> getAllVehicles() {
-        return inventory;
-    }
-
-    public void addVehicle(Vehicle vehicle) {
-        inventory.add(vehicle);
-    }
-
-    public void removeVehicle(int vin) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).getVin() == vin) {
-                inventory.remove(i);
-                break;
-            }
-        }
-    }
 }

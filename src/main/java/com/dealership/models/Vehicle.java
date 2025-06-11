@@ -1,7 +1,7 @@
 package com.dealership.models;
 
 public class Vehicle {
-    private int vin;
+    private String vin;
     private int year;
     private String make;
     private String model;
@@ -9,8 +9,9 @@ public class Vehicle {
     private String color;
     private int odometer;
     private double price;
+    private boolean sold;
 
-    public Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price) {
+    public Vehicle(String vin, int year, String make, String model, String vehicleType, String color, int odometer, double price, boolean sold) {
         this.vin = vin;
         this.year = year;
         this.make = make;
@@ -19,13 +20,19 @@ public class Vehicle {
         this.color = color;
         this.odometer = odometer;
         this.price = price;
+        this.sold = sold;
     }
 
-    public int getVin() {
+    // Overloaded constructor without 'sold' (defaults to false)
+    public Vehicle(String vin, int year, String make, String model, String vehicleType, String color, int odometer, double price) {
+        this(vin, year, make, model, vehicleType, color, odometer, price, false);
+    }
+
+    public String getVin() {
         return vin;
     }
 
-    public void setVin(int vin) {
+    public void setVin(String vin) {
         this.vin = vin;
     }
 
@@ -83,5 +90,13 @@ public class Vehicle {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
     }
 }

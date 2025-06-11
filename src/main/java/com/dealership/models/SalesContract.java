@@ -1,18 +1,33 @@
 package com.dealership.models;
 
 public class SalesContract extends Contract {
+    private int contractId;
     private double salesTaxAmount;
     private double recordingFee = 100;
     private double processingFee;
     private boolean isFinanced;
     private double vehiclePrice;
 
-    public SalesContract(String customerName, String customerEmail, Vehicle vehicle, String contractDate, double vehiclePrice, boolean isFinanced) {
+    public SalesContract(int ContractId, String customerName, String customerEmail, Vehicle vehicle, String contractDate, double vehiclePrice, boolean isFinanced) {
         super(customerName, customerEmail, vehicle, contractDate);
+        this.contractId = ContractId;
         this.salesTaxAmount = vehiclePrice * 0.05; // sales tax rate of 5%
         this.processingFee = (vehiclePrice < 10000) ? 295 : 495; // processing fee based on vehicle price
         this.isFinanced = isFinanced;
         this.vehiclePrice = vehiclePrice;
+    }
+
+    // Overloaded constructor without contractId (for inserts)
+    public SalesContract(String customerName, String customerEmail, Vehicle vehicle, String contractDate, double vehiclePrice, boolean isFinanced) {
+        this(0, customerName, customerEmail, vehicle, contractDate, vehiclePrice, isFinanced);
+    }
+
+    public int getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
     }
 
     public double getSalesTaxAmount() {
