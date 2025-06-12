@@ -251,7 +251,6 @@ public class UserInterface {
                 salesDao.insertSalesContract(salesContract);
 
                 vehicle.setSold(true);
-                dealership.removeVehicle(vehicle.getVin());
                 System.out.println("Sales contract recorded.");
             } else if (type.equals("2")) {
                 System.out.print("Enter lease end date (yyyy-mm-dd): ");
@@ -265,7 +264,6 @@ public class UserInterface {
                 leaseDao.insertLeaseContract(leaseContract);
 
                 vehicle.setSold(true);
-                dealership.removeVehicle(vehicle.getVin());
                 System.out.println("Lease contract recorded.");
             } else {
                 System.out.println("Invalid option. Contract not created.");
