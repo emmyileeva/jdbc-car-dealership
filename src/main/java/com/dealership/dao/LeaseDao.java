@@ -47,6 +47,7 @@ public class LeaseDao {
             while (rs.next()) {
                 Vehicle vehicle = vehicleDao.getVehicleByVin(rs.getString("VIN"));
                 LeaseContract contract = new LeaseContract(
+                        rs.getInt("lease_id"),
                         rs.getString("customer_name"),
                         rs.getString("customer_email"),
                         vehicle,
@@ -54,7 +55,6 @@ public class LeaseDao {
                         vehicle.getPrice(),
                         rs.getDate("end_date").toLocalDate()
                 );
-                contract.setLeaseId(rs.getInt("lease_id"));
                 contracts.add(contract);
             }
         }
