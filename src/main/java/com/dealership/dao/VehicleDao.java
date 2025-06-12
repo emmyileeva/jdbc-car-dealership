@@ -158,6 +158,20 @@ public class VehicleDao {
         }
     }
 
+    // Grab vehicle by VIN
+    public Vehicle getVehicleByVin(String vin) throws SQLException {
+        String query = "SELECT * FROM vehicles WHERE VIN = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, vin);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToVehicle(rs);
+            } else {
+                return null; // No vehicle found with the given VIN
+            }
+        }
+    }
+
     // Helper method to map ResultSet to Vehicle object
     private Vehicle mapResultSetToVehicle(ResultSet rs) throws SQLException {
         return new Vehicle(
