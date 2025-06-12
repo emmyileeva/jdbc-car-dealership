@@ -1,5 +1,9 @@
 package com.dealership.models;
 
+import com.dealership.dao.VehicleDao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Dealership {
@@ -7,19 +11,14 @@ public class Dealership {
     private String name;
     private String address;
     private String phone;
-    private ArrayList<Vehicle> inventory;
+    private final VehicleDao vehicleDao;
 
-    public Dealership(int dealershipId, String name, String address, String phone) {
+    public Dealership(int dealershipId, String name, String address, String phone, Connection connection) {
         this.dealershipId = dealershipId;
-        this.inventory = new ArrayList<>();
         this.name = name;
         this.address = address;
         this.phone = phone;
-    }
-
-    // Overloaded constructor for new dealerships (no ID yet)
-    public Dealership(String name, String address, String phone) {
-        this(0, name, address, phone);
+        this.vehicleDao = new VehicleDao(connection);
     }
 
     public int getDealershipId() {
@@ -42,81 +41,39 @@ public class Dealership {
         return phone;
     }
 
-    public ArrayList<Vehicle> getAllVehicles() {
-        return inventory;
+    public ArrayList<Vehicle> getVehiclesByPrice(double min, double max) throws SQLException {
+        return vehicleDao.getVehiclesByPriceRange(min, max);
     }
 
-    public void addVehicle(Vehicle vehicle) {
-        inventory.add(vehicle);
+    public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model) throws SQLException {
+        return vehicleDao.getVehiclesByMakeAndModel(make, model);
     }
 
-    public void removeVehicle(String vin) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).getVin().equalsIgnoreCase(vin)) {
-                inventory.remove(i);
-                break;
-            }
-        }
+    public ArrayList<Vehicle> getVehiclesByYear(int min, int max) throws SQLException {
+        return vehicleDao.getVehiclesByYearRange(min, max);
     }
 
-    public ArrayList<Vehicle> getVehiclesByPrice(double min, double max) {
-        ArrayList<Vehicle> result = new ArrayList<>();
-        for (Vehicle vehicle : inventory) {
-            if (vehicle.getPrice() >= min && vehicle.getPrice() <= max) {
-                result.add(vehicle);
-            }
-        }
-        return result;
+    public ArrayList<Vehicle> getVehiclesByColor(String color) throws SQLException {
+        return vehicleDao.getVehiclesByColor(color);
     }
 
-    public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model) {
-        ArrayList<Vehicle> result = new ArrayList<>();
-        for (Vehicle vehicle : inventory) {
-            if (vehicle.getMake().equalsIgnoreCase(make) && vehicle.getModel().equalsIgnoreCase(model)) {
-                result.add(vehicle);
-            }
-        }
-        return result;
+    public ArrayList<Vehicle> getVehiclesByMileage(int min, int max) throws SQLException {
+        return vehicleDao.getVehiclesByMileageRange(min, max);
     }
 
-    public ArrayList<Vehicle> getVehiclesByYear(int min, int max) {
-        ArrayList<Vehicle> result = new ArrayList<>();
-        for (Vehicle vehicle : inventory) {
-            if (vehicle.getYear() >= min && vehicle.getYear() <= max) {
-                result.add(vehicle);
-            }
-        }
-        return result;
+    public ArrayList<Vehicle> getVehiclesByType(String vehicleType) throws SQLException {
+        return vehicleDao.getVehiclesByType(vehicleType);
     }
 
-    public ArrayList<Vehicle> getVehiclesByColor(String color) {
-        ArrayList<Vehicle> result = new ArrayList<>();
-        for (Vehicle vehicle : inventory) {
-            if (vehicle.getColor().equalsIgnoreCase(color)) {
-                result.add(vehicle);
-            }
-        }
-        return result;
+    public ArrayList<Vehicle> getAllVehicles() throws SQLException {
+        return vehicleDao.getAllVehicles();
     }
 
-    public ArrayList<Vehicle> getVehiclesByMileage(int min, int max) {
-        ArrayList<Vehicle> result = new ArrayList<>();
-        for (Vehicle vehicle : inventory) {
-            if (vehicle.getOdometer() >= min && vehicle.getOdometer() <= max) {
-                result.add(vehicle);
-            }
-        }
-        return result;
+    public void addVehicle(Vehicle vehicle) throws SQLException {
+        vehicleDao.addVehicle(vehicle);
     }
 
-    public ArrayList<Vehicle> getVehiclesByType(String vehicleType) {
-        ArrayList<Vehicle> result = new ArrayList<>();
-        for (Vehicle vehicle : inventory) {
-            if (vehicle.getVehicleType().equalsIgnoreCase(vehicleType)) {
-                result.add(vehicle);
-            }
-        }
-        return result;
+    public void removeVehicle(String vin) throws SQLException {
+        vehicleDao.removeVehicle(vin);
     }
-
 }
